@@ -1,0 +1,2833 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jonathan Ductievicz | Contabilidade, Controladoria e Finanças</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
+    <style>
+      :root {
+        --azul: #1e3a8a;
+        --verde: #10b981;
+        --cinza: #f3f4f6;
+        --preto: #111827;
+        --branco: #ffffff;
+        --shadow-light: 0 4px 15px rgba(0, 0, 0, 0.05);
+        --shadow-medium: 0 8px 25px rgba(0, 0, 0, 0.1);
+        --shadow-heavy: 0 15px 35px rgba(0, 0, 0, 0.15);
+        --transition-fast: 0.2s ease;
+        --transition-medium: 0.3s ease;
+        --transition-slow: 0.5s ease;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        font-family: 'Segoe UI', 'Roboto', sans-serif;
+        background-color: var(--branco);
+        color: #333;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Loading Animation */
+      .loading-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--branco);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+      }
+
+      .loading-spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid var(--cinza);
+        border-top: 4px solid var(--verde);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Scroll Progress Bar */
+      .scroll-progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 0%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--verde), var(--azul));
+        z-index: 1001;
+        transition: width 0.1s ease;
+      }
+
+      /* Navigation Bar */
+      .navbar {
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 1rem 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow-light);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        transition: all var(--transition-medium);
+      }
+
+      .navbar.scrolled {
+        padding: 0.5rem 2rem;
+        box-shadow: var(--shadow-medium);
+      }
+
+      .navbar .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--azul);
+        text-decoration: none;
+        transition: transform var(--transition-fast);
+      }
+
+      .navbar .logo:hover {
+        transform: scale(1.05);
+      }
+
+      .navbar .nav-links {
+        list-style: none;
+        display: flex;
+        gap: 1.5rem;
+        margin: 0;
+      }
+
+      .navbar .nav-links a {
+        text-decoration: none;
+        color: var(--preto);
+        font-weight: 500;
+        position: relative;
+        transition: color var(--transition-medium);
+      }
+
+      .navbar .nav-links a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -5px;
+        left: 0;
+        background-color: var(--verde);
+        transition: width var(--transition-medium);
+      }
+
+      .navbar .nav-links a:hover::after,
+      .navbar .nav-links a.active::after {
+        width: 100%;
+      }
+
+      .navbar .nav-links a:hover,
+      .navbar .nav-links a.active {
+        color: var(--verde);
+      }
+
+      .navbar .nav-cta a {
+        background: linear-gradient(135deg, var(--verde), #0f9b6b);
+        color: var(--branco);
+        padding: 0.6rem 1.2rem;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all var(--transition-medium);
+        box-shadow: var(--shadow-light);
+      }
+
+      .navbar .nav-cta a:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+      }
+
+      .navbar .menu-toggle {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: transform var(--transition-fast);
+      }
+
+      .navbar .menu-toggle:hover {
+        transform: scale(1.1);
+      }
+
+      /* Header with Parallax Effect */
+      header {
+        background: linear-gradient(
+            rgba(30, 58, 138, 0.8),
+            rgba(30, 58, 138, 0.8)
+          ),
+          url(https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070&auto=format&fit=crop)
+            no-repeat center center;
+        background-size: cover;
+        background-attachment: fixed;
+        color: var(--branco);
+        padding: 8rem 1rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      header::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(16, 185, 129, 0.1)
+        );
+        animation: shimmer 3s ease-in-out infinite;
+      }
+
+      @keyframes shimmer {
+        0%,
+        100% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      header h1 {
+        margin: 0;
+        font-size: 3.2rem;
+        font-weight: 700;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 1s ease 0.5s forwards;
+      }
+
+      header p {
+        font-size: 1.3rem;
+        max-width: 800px;
+        margin: 1rem auto 0;
+        opacity: 0;
+        transform: translateY(30px);
+        animation: fadeInUp 1s ease 0.8s forwards;
+      }
+
+      @keyframes fadeInUp {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Floating Action Button */
+      .fab {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--verde), #0f9b6b);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--branco);
+        font-size: 1.5rem;
+        text-decoration: none;
+        box-shadow: var(--shadow-medium);
+        z-index: 999;
+        transition: all var(--transition-medium);
+        animation: pulse 2s infinite;
+      }
+
+      .fab:hover {
+        transform: scale(1.1);
+        box-shadow: var(--shadow-heavy);
+      }
+
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        }
+      }
+
+      /* Animated Sections */
+      .section {
+        padding: 4rem 1rem;
+        max-width: 1100px;
+        margin: auto;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all var(--transition-slow);
+      }
+
+      .section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .section.bg-gray {
+        background-color: var(--cinza);
+        max-width: 100%;
+        padding: 4rem 1rem;
+      }
+
+      .section.bg-gray .section-content {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        text-align: center;
+        font-size: 2.5rem;
+        color: var(--azul);
+        margin-bottom: 3rem;
+        position: relative;
+      }
+
+      .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--verde), var(--azul));
+        border-radius: 2px;
+      }
+
+      /* About Section */
+      .about-section {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 3rem;
+        align-items: center;
+      }
+
+      .about-image {
+        flex: 1;
+        max-width: 300px;
+        margin: auto;
+        position: relative;
+      }
+
+      .about-image::before {
+        content: '';
+        position: absolute;
+        top: -20px;
+        left: -20px;
+        right: 20px;
+        bottom: 20px;
+        background: linear-gradient(135deg, var(--verde), var(--azul));
+        border-radius: 50%;
+        z-index: -1;
+        opacity: 0.1;
+      }
+
+      .about-image img {
+        width: 100%;
+        border-radius: 50%;
+        box-shadow: var(--shadow-heavy);
+        border: 4px solid var(--branco);
+        transition: transform var(--transition-medium);
+      }
+
+      .about-image:hover img {
+        transform: scale(1.05);
+      }
+
+      .about-text {
+        flex: 2;
+        min-width: 300px;
+      }
+
+      .about-text h2 {
+        font-size: 2.2rem;
+        margin-top: 0;
+        color: var(--azul);
+        margin-bottom: 1rem;
+      }
+
+      .about-text .crc {
+        font-weight: bold;
+        color: var(--verde);
+        display: block;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        background: rgba(16, 185, 129, 0.1);
+        border-radius: 5px;
+        border-left: 4px solid var(--verde);
+      }
+
+      /* Stats Counter */
+      .stats-section {
+        background: linear-gradient(135deg, var(--azul), #1e40af);
+        color: var(--branco);
+        padding: 3rem 1rem;
+        margin: 2rem 0;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+      }
+
+      .stat-item {
+        text-align: center;
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: bold;
+        color: var(--verde);
+        display: block;
+      }
+
+      .stat-label {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+
+      /* Service Cards */
+      .service-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 2rem;
+      }
+
+      .service-card {
+        background-color: var(--branco);
+        padding: 2.5rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow-light);
+        text-align: center;
+        transition: all var(--transition-medium);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .service-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(16, 185, 129, 0.1),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .service-card:hover::before {
+        left: 100%;
+      }
+
+      .service-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-heavy);
+      }
+
+      .service-card .icon {
+        font-size: 3rem;
+        color: var(--verde);
+        margin-bottom: 1.5rem;
+        transition: transform var(--transition-medium);
+      }
+
+      .service-card:hover .icon {
+        transform: scale(1.1) rotate(5deg);
+      }
+
+      .service-card h3 {
+        margin: 0 0 1rem 0;
+        color: var(--azul);
+        font-size: 1.3rem;
+      }
+
+      /* Tech Grid */
+      .tech-grid {
+        display: flex;
+        justify-content: center;
+        gap: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .tech-item {
+        background-color: var(--branco);
+        color: var(--preto);
+        padding: 1rem 1.5rem;
+        border-radius: 25px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        box-shadow: var(--shadow-light);
+        transition: all var(--transition-medium);
+        cursor: pointer;
+      }
+
+      .tech-item:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow-medium);
+        background: linear-gradient(135deg, var(--verde), #0f9b6b);
+        color: var(--branco);
+      }
+
+      .tech-item i {
+        color: var(--azul);
+        transition: color var(--transition-medium);
+      }
+
+      .tech-item:hover i {
+        color: var(--branco);
+      }
+
+      /* Projects Section */
+      .projects-section {
+        background: linear-gradient(135deg, var(--cinza), #e5e7eb);
+        padding: 4rem 1rem;
+        margin: 2rem 0;
+      }
+
+      .projects-container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .projects-filters {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+      }
+
+      .filter-btn {
+        background: var(--branco);
+        color: var(--azul);
+        border: 2px solid var(--azul);
+        padding: 0.8rem 1.5rem;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all var(--transition-medium);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .filter-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: var(--azul);
+        transition: left var(--transition-medium);
+        z-index: 0;
+      }
+
+      .filter-btn span {
+        position: relative;
+        z-index: 1;
+      }
+
+      .filter-btn:hover::before,
+      .filter-btn.active::before {
+        left: 0;
+      }
+
+      .filter-btn:hover span,
+      .filter-btn.active span {
+        color: var(--branco);
+      }
+
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+      }
+
+      .project-card {
+        background: var(--branco);
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: var(--shadow-light);
+        transition: all var(--transition-medium);
+        opacity: 1;
+        transform: scale(1);
+        animation: fadeInProject 0.5s ease;
+      }
+
+      .project-card.hidden {
+        opacity: 0;
+        transform: scale(0.8);
+        pointer-events: none;
+      }
+
+      @keyframes fadeInProject {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-heavy);
+      }
+
+      .project-image {
+        height: 200px;
+        background: linear-gradient(135deg, var(--azul), var(--verde));
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--branco);
+        font-size: 3rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-image::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          45deg,
+          transparent,
+          rgba(255, 255, 255, 0.1)
+        );
+        animation: shimmer 2s ease-in-out infinite;
+      }
+
+      .project-content {
+        padding: 1.5rem;
+      }
+
+      .project-category {
+        background: var(--verde);
+        color: var(--branco);
+        padding: 0.3rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        display: inline-block;
+        margin-bottom: 1rem;
+      }
+
+      .project-title {
+        font-size: 1.3rem;
+        color: var(--azul);
+        margin-bottom: 0.5rem;
+        font-weight: bold;
+      }
+
+      .project-client {
+        color: #666;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+
+      .project-description {
+        color: #555;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+      }
+
+      .project-tags {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+      }
+
+      .project-tag {
+        background: var(--cinza);
+        color: var(--azul);
+        padding: 0.3rem 0.8rem;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .project-results {
+        background: rgba(16, 185, 129, 0.1);
+        padding: 1rem;
+        border-radius: 8px;
+        border-left: 4px solid var(--verde);
+        margin-bottom: 1.5rem;
+      }
+
+      .project-results strong {
+        color: var(--verde);
+      }
+
+      .project-btn {
+        background: linear-gradient(135deg, var(--azul), #1e40af);
+        color: var(--branco);
+        border: none;
+        padding: 0.8rem 1.5rem;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        width: 100%;
+        transition: all var(--transition-medium);
+      }
+
+      .project-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+      }
+
+      /* Project Modal */
+      .project-modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+      }
+
+      .project-modal-content {
+        background-color: var(--branco);
+        margin: 2% auto;
+        padding: 0;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 800px;
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        animation: modalSlideIn 0.3s ease;
+      }
+
+      .project-modal-header {
+        background: linear-gradient(135deg, var(--azul), var(--verde));
+        color: var(--branco);
+        padding: 2rem;
+        border-radius: 15px 15px 0 0;
+        position: relative;
+      }
+
+      .project-modal-close {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 2rem;
+        cursor: pointer;
+        color: var(--branco);
+        transition: transform var(--transition-fast);
+      }
+
+      .project-modal-close:hover {
+        transform: scale(1.1);
+      }
+
+      .project-modal-body {
+        padding: 2rem;
+      }
+
+      .project-timeline {
+        margin: 2rem 0;
+      }
+
+      .timeline-item {
+        display: flex;
+        margin-bottom: 1.5rem;
+        align-items: flex-start;
+      }
+
+      .timeline-icon {
+        background: var(--verde);
+        color: var(--branco);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        flex-shrink: 0;
+      }
+
+      .timeline-content h4 {
+        color: var(--azul);
+        margin-bottom: 0.5rem;
+      }
+
+      .timeline-content p {
+        color: #666;
+        line-height: 1.5;
+      }
+
+      /* Testimonials Section */
+      .testimonials-section {
+        background: linear-gradient(135deg, var(--cinza), #e5e7eb);
+        padding: 4rem 1rem;
+        margin: 2rem 0;
+      }
+
+      .testimonials-container {
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .testimonial {
+        background: var(--branco);
+        padding: 2rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow-light);
+        text-align: center;
+        display: none;
+        animation: fadeIn 0.5s ease;
+      }
+
+      .testimonial.active {
+        display: block;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .testimonial-text {
+        font-style: italic;
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+        color: #555;
+      }
+
+      .testimonial-author {
+        font-weight: bold;
+        color: var(--azul);
+      }
+
+      .testimonial-nav {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 2rem;
+      }
+
+      .testimonial-dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: #ccc;
+        cursor: pointer;
+        transition: background var(--transition-fast);
+      }
+
+      .testimonial-dot.active {
+        background: var(--verde);
+      }
+
+      /* Plans Section */
+      .plans {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        justify-content: center;
+        align-items: stretch;
+      }
+
+      .plan {
+        background-color: var(--branco);
+        border-radius: 15px;
+        box-shadow: var(--shadow-light);
+        padding: 2.5rem;
+        width: 300px;
+        transition: all var(--transition-medium);
+        border: 2px solid transparent;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .plan-content {
+        flex-grow: 1;
+      }
+
+      .plan:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--shadow-heavy);
+      }
+
+      .plan.highlight {
+        border-color: var(--verde);
+        transform: scale(1.05);
+        background: linear-gradient(135deg, var(--branco), #f0fdf4);
+      }
+
+      .highlight-badge {
+        position: absolute;
+        top: 15px;
+        right: -35px;
+        background: linear-gradient(135deg, var(--verde), #0f9b6b);
+        color: var(--branco);
+        padding: 5px 30px;
+        font-size: 0.9rem;
+        font-weight: bold;
+        transform: rotate(45deg);
+        box-shadow: var(--shadow-light);
+      }
+
+      .plan h2 {
+        font-size: 1.6rem;
+        color: var(--azul);
+        margin-bottom: 0.5rem;
+      }
+
+      .plan .price {
+        color: var(--verde);
+        font-weight: bold;
+        font-size: 2rem;
+        margin: 0.5rem 0 1rem 0;
+      }
+
+      .plan .price-note {
+        font-size: 1rem;
+        font-weight: normal;
+      }
+
+      .plan ul {
+        padding-left: 0;
+        list-style: none;
+      }
+
+      .plan ul li {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: flex-start;
+        transition: transform var(--transition-fast);
+      }
+
+      .plan ul li:hover {
+        transform: translateX(5px);
+      }
+
+      .plan ul li i {
+        color: var(--verde);
+        margin-right: 10px;
+        font-size: 1.2rem;
+        width: 20px;
+        text-align: center;
+      }
+
+      .plan-cta {
+        margin-top: 2rem;
+      }
+
+      .plan-btn {
+        width: 100%;
+        padding: 1rem;
+        background: linear-gradient(135deg, var(--azul), #1e40af);
+        color: var(--branco);
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all var(--transition-medium);
+      }
+
+      .plan-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+      }
+
+      /* Form Section */
+      .form-section {
+        background: linear-gradient(135deg, var(--cinza), #e5e7eb);
+        max-width: 700px;
+        margin: 2rem auto;
+        padding: 3rem;
+        border-radius: 15px;
+        box-shadow: var(--shadow-light);
+      }
+
+      .form-group {
+        margin-bottom: 1.5rem;
+        position: relative;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 1rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 8px;
+        font-size: 1rem;
+        transition: all var(--transition-medium);
+        background: var(--branco);
+      }
+
+      .form-input:focus {
+        outline: none;
+        border-color: var(--verde);
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+      }
+
+      .form-input.error {
+        border-color: #ef4444;
+      }
+
+      .form-input.success {
+        border-color: var(--verde);
+      }
+
+      .form-error {
+        color: #ef4444;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+        display: none;
+      }
+
+      .form-success {
+        color: var(--verde);
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+        display: none;
+      }
+
+      .btn-submit {
+        background: linear-gradient(135deg, var(--verde), #0f9b6b);
+        color: var(--branco);
+        width: 100%;
+        padding: 1.2rem;
+        border: none;
+        border-radius: 8px;
+        font-size: 1.2rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all var(--transition-medium);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-medium);
+      }
+
+      .btn-submit:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .btn-submit .loading {
+        display: none;
+      }
+
+      .btn-submit.loading .loading {
+        display: inline-block;
+        animation: spin 1s linear infinite;
+      }
+
+      /* Footer */
+      footer {
+        background: linear-gradient(135deg, var(--preto), #1f2937);
+        color: var(--branco);
+        text-align: center;
+        padding: 4rem 1rem 2rem 1rem;
+      }
+
+      .social-links {
+        margin-bottom: 2rem;
+      }
+
+      .social-links a {
+        color: var(--branco);
+        text-decoration: none;
+        font-size: 2rem;
+        margin: 0 1rem;
+        transition: all var(--transition-medium);
+        display: inline-block;
+      }
+
+      .social-links a:hover {
+        color: var(--verde);
+        transform: translateY(-5px) scale(1.1);
+      }
+
+      .footer-contact p {
+        margin: 0.5rem 0;
+        transition: color var(--transition-medium);
+      }
+
+      .footer-contact a {
+        color: var(--branco);
+        text-decoration: none;
+        transition: color var(--transition-medium);
+      }
+
+      .footer-contact a:hover {
+        color: var(--verde);
+      }
+
+      .footer-copyright {
+        margin-top: 2rem;
+        font-size: 0.9rem;
+        opacity: 0.7;
+      }
+
+      /* Modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 2000;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(5px);
+      }
+
+      .modal-content {
+        background-color: var(--branco);
+        margin: 5% auto;
+        padding: 2rem;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 500px;
+        position: relative;
+        animation: modalSlideIn 0.3s ease;
+      }
+
+      @keyframes modalSlideIn {
+        from {
+          transform: translateY(-50px);
+          opacity: 0;
+        }
+        to {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .modal-close {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 2rem;
+        cursor: pointer;
+        color: #999;
+        transition: color var(--transition-fast);
+      }
+
+      .modal-close:hover {
+        color: var(--preto);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 992px) {
+        .navbar .nav-links,
+        .navbar .nav-cta {
+          display: none;
+        }
+
+        .navbar .menu-toggle {
+          display: block;
+        }
+
+        .navbar.active .nav-links {
+          display: flex;
+          flex-direction: column;
+          position: absolute;
+          top: 70px;
+          left: 0;
+          width: 100%;
+          background-color: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(10px);
+          box-shadow: var(--shadow-medium);
+          padding: 1rem 0;
+        }
+
+        .navbar.active .nav-links li {
+          text-align: center;
+          padding: 1rem;
+        }
+
+        .plan.highlight {
+          transform: scale(1);
+        }
+
+        header {
+          background-attachment: scroll;
+          padding: 6rem 1rem;
+        }
+
+        header h1 {
+          font-size: 2.5rem;
+        }
+
+        .fab {
+          bottom: 20px;
+          right: 20px;
+          width: 50px;
+          height: 50px;
+          font-size: 1.2rem;
+        }
+
+        .projects-filters {
+          gap: 0.5rem;
+        }
+
+        .filter-btn {
+          padding: 0.6rem 1rem;
+          font-size: 0.9rem;
+        }
+
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .section {
+          padding: 3rem 1rem;
+        }
+
+        .section-title {
+          font-size: 2rem;
+        }
+
+        .about-section {
+          flex-direction: column;
+          text-align: center;
+        }
+
+        .stats-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .service-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .plans {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .plan {
+          width: 100%;
+          max-width: 400px;
+        }
+
+        .projects-filters {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .project-modal-content {
+          width: 95%;
+          margin: 5% auto;
+        }
+
+        .project-modal-header,
+        .project-modal-body {
+          padding: 1.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay">
+      <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+      <a href="#" class="logo">Jonathan Ductievicz</a>
+      <div class="menu-toggle" id="menu-toggle">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#about" class="nav-link">Sobre Mim</a></li>
+        <li><a href="#services" class="nav-link">Serviços</a></li>
+        <li><a href="#projects" class="nav-link">Projetos</a></li>
+        <li><a href="#plans" class="nav-link">Planos</a></li>
+        <li><a href="#contact" class="nav-link">Contato</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="#contact">Fale com um Especialista</a>
+      </div>
+    </nav>
+
+    <!-- Header -->
+    <header>
+      <h1>Contabilidade Estratégica para o Crescimento do seu Negócio</h1>
+      <p>
+        Soluções completas em contabilidade, controladoria e finanças, unindo
+        mais de uma década de experiência com inovação e tecnologia para
+        impulsionar seus resultados.
+      </p>
+    </header>
+
+    <!-- Floating Action Button -->
+    <a
+      href="https://wa.me/5545988043271"
+      class="fab"
+      target="_blank"
+      aria-label="WhatsApp"
+    >
+      <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <main>
+      <!-- About Section -->
+      <section class="section" id="about">
+        <div class="about-section">
+          <div class="about-image">
+            <img
+              src="https://yt3.googleusercontent.com/ytc/AIdro_kcdFWP86LuNKtC9nc27Nlhi602pB4DP7OBl6LWmxE8WKc=s900-c-k-c0x00ffffff-no-rj"
+              alt="Foto de Jonathan Ductievicz"
+            />
+          </div>
+          <div class="about-text">
+            <h2>Jonathan Ductievicz</h2>
+            <p>
+              Contador e Controller com mais de 11 anos de experiência nas áreas
+              contábil, fiscal, societária, controladoria e finanças orientadas
+              por dados. Atuação sólida em empresas de construção civil,
+              incorporação imobiliária e serviços. Especialista em planejamento
+              tributário nos regimes Simples Nacional, Lucro Presumido e Lucro
+              Real, com profundo domínio das normas contábeis (brasileiras e
+              internacionais) e das obrigações do SPED.
+            </p>
+            <span class="crc">
+              Contador com CRC Ativo: MT-019276/O-7 T-PR
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Stats Section -->
+      <section class="stats-section">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-number" data-target="11">0</span>
+            <span class="stat-label">Anos de Experiência</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="150">0</span>
+            <span class="stat-label">Clientes Atendidos</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="500">0</span>
+            <span class="stat-label">Projetos Concluídos</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-number" data-target="98">0</span>
+            <span class="stat-label">% Satisfação</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Services Section -->
+      <section class="section bg-gray" id="services">
+        <div class="section-content">
+          <h2 class="section-title">Áreas de Atuação</h2>
+          <div class="service-grid">
+            <div class="service-card">
+              <div class="icon"><i class="fa-solid fa-building"></i></div>
+              <h3>Empresas e Construtoras</h3>
+              <p>
+                Contabilidade completa para os regimes Simples Nacional, Lucro
+                Presumido e Lucro Real, incluindo gestão de custos, planejamento
+                tributário e controladoria.
+              </p>
+            </div>
+            <div class="service-card">
+              <div class="icon"><i class="fa-solid fa-user-tie"></i></div>
+              <h3>Profissionais Liberais e Agências</h3>
+              <p>
+                Assessoria especializada no Simples Nacional, com foco na
+                otimização tributária através do Fator R e cumprimento de todas
+                as obrigações.
+              </p>
+            </div>
+            <div class="service-card">
+              <div class="icon"><i class="fa-solid fa-tractor"></i></div>
+              <h3>Pessoa Física e Produtor Rural</h3>
+              <p>
+                Elaboração de IRPF, Carnê-Leão, gestão do eSocial para
+                domésticos, e contabilidade rural completa (LCDPR, ITR).
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tech Section -->
+      <section class="section">
+        <h2 class="section-title">Nossos Diferenciais Tecnológicos</h2>
+        <p
+          style="
+            text-align: center;
+            max-width: 800px;
+            margin: -2rem auto 3rem auto;
+          "
+        >
+          Vamos além da contabilidade tradicional, utilizando ferramentas de
+          automação e análise de dados para gerar inteligência estratégica e
+          otimizar processos financeiros.
+        </p>
+        <div class="tech-grid">
+          <div class="tech-item">
+            <i class="fa-solid fa-chart-pie"></i> Power BI para Relatórios
+            Dinâmicos
+          </div>
+          <div class="tech-item">
+            <i class="fa-brands fa-python"></i> Automação com Python e RPA
+          </div>
+          <div class="tech-item">
+            <i class="fa-solid fa-database"></i> Modelagem de Dados com SQL
+          </div>
+          <div class="tech-item">
+            <i class="fa-solid fa-brain"></i> Análise com Inteligência
+            Artificial
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section class="projects-section" id="projects">
+        <div class="projects-container">
+          <h2 class="section-title">Projetos Realizados</h2>
+          <p
+            style="
+              text-align: center;
+              max-width: 800px;
+              margin: -2rem auto 3rem auto;
+              color: #666;
+            "
+          >
+            Conheça alguns dos projetos que desenvolvemos para nossos clientes,
+            demonstrando nossa experiência prática e os resultados alcançados.
+          </p>
+
+          <div class="projects-filters">
+            <button class="filter-btn active" data-filter="all">
+              <span>Todos os Projetos</span>
+            </button>
+            <button class="filter-btn" data-filter="construcao">
+              <span>Construção Civil</span>
+            </button>
+            <button class="filter-btn" data-filter="liberais">
+              <span>Profissionais Liberais</span>
+            </button>
+            <button class="filter-btn" data-filter="rural">
+              <span>Pessoa Física/Rural</span>
+            </button>
+            <button class="filter-btn" data-filter="automacao">
+              <span>Automação/BI</span>
+            </button>
+          </div>
+
+          <div class="projects-grid" id="projectsGrid">
+            <!-- Projeto 1 -->
+            <div class="project-card" data-category="construcao">
+              <div class="project-image">
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
+              <div class="project-content">
+                <span class="project-category">Construção Civil</span>
+                <h3 class="project-title">Sistema de Controle de Custos</h3>
+                <p class="project-client">Construtora Regional</p>
+                <p class="project-description">
+                  Implementação de sistema automatizado para controle de custos
+                  de obra com dashboards em tempo real e análise preditiva.
+                </p>
+                <div class="project-tags">
+                  <span class="project-tag">Power BI</span>
+                  <span class="project-tag">Python</span>
+                  <span class="project-tag">Excel</span>
+                </div>
+                <div class="project-results">
+                  <strong>Resultados:</strong> 30% redução no tempo de análise,
+                  15% economia em custos
+                </div>
+                <button
+                  class="project-btn"
+                  onclick="openProjectModal('projeto1')"
+                >
+                  Ver Detalhes
+                </button>
+              </div>
+            </div>
+
+            <!-- Projeto 2 -->
+            <div class="project-card" data-category="construcao">
+              <div class="project-image">
+                <i class="fa-solid fa-building"></i>
+              </div>
+              <div class="project-content">
+                <span class="project-category">Construção Civil</span>
+                <h3 class="project-title">Dashboard Gerencial</h3>
+                <p class="project-client">Incorporadora Imobiliária</p>
+                <p class="project-description">
+                  Dashboard em tempo real para acompanhamento de vendas, estoque
+                  e indicadores financeiros da incorporadora.
+                </p>
+                <div class="project-tags">
+                  <span class="project-tag">Power BI</span>
+                  <span class="project-tag">SQL</span>
+                  <span class="project-tag">Automação</span>
+                </div>
+                <div class="project-results">
+                  <strong>Resultados:</strong> Decisões 50% mais rápidas,
+                  visibilidade completa do negócio
+                </div>
+                <button
+                  class="project-btn"
+                  onclick="openProjectModal('projeto2')"
+                >
+                  Ver Detalhes
+                </button>
+              </div>
+            </div>
+
+            <!-- Projeto 3 -->
+            <div class="project-card" data-category="liberais">
+              <div class="project-image">
+                <i class="fa-solid fa-calculator"></i>
+              </div>
+              <div class="project-content">
+                <span class="project-category">Profissionais Liberais</span>
+                <h3 class="project-title">Otimização Tributária</h3>
+                <p class="project-client">Agência de Marketing Digital</p>
+                <p class="project-description">
+                  Reestruturação tributária com foco no Fator R e análise de
+                  enquadramento fiscal mais vantajoso.
+                </p>
+                <div class="project-tags">
+                  <span class="project-tag">Análise de Dados</span>
+                  <span class="project-tag">Planejamento Tributário</span>
+                  <span class="project-tag">Fator R</span>
+                </div>
+                <div class="project-results">
+                  <strong>Resultados:</strong> 25% redução na carga tributária
+                </div>
+                <button
+                  class="project-btn"
+                  onclick="openProjectModal('projeto3')"
+                >
+                  Ver Detalhes
+                </button>
+              </div>
+            </div>
+
+            <!-- Projeto 4 -->
+            <div class="project-card" data-category="liberais">
+              <div class="project-image">
+                <i class="fa-solid fa-robot"></i>
+              </div>
+              <div class="project-content">
+                <span class="project-category">Profissionais Liberais</span>
+                <h3 class="project-title">Automação Contábil</h3>
+                <p class="project-client">Consultoria Empresarial</p>
+                <p class="project-description">
+                  Automação completa de processos contábeis e fiscais com
+                  integração de sistemas e RPA.
+                </p>
+                <div class="project-tags">
+                  <span class="project-tag">Python</span>
+                  <span class="project-tag">RPA</span>
+                  <span class="project-tag">Integração</span>
+                </div>
+                <div class="project-results">
+                  <strong>Resultados:</strong> 60% redução no tempo de
+                  processamento
+                </div>
+                <button
+                  class="project-btn"
+                  onclick="openProjectModal('projeto4')"
+                >
+                  Ver Detalhes
+                </button>
+              </div>
+            </div>
+
+            <!-- Projeto 5 -->
+            <div class="project-card" data-category="rural">
+              <div class="project-image">
+                <i class="fa-solid fa-tractor"></i>
+              </div>
+              <div class="project-content">
+                <span class="project-category">Pessoa Física/Rural</span>
+                <h3 class="project-title">Gestão Rural Completa</h3>
+                <p class="project-client">Produtor Rural</p>
+                <p class="project-description">
+                  Implementação de controle completo para atividade rural com
+                  LCDPR, ITR e análise de rentabilidade.
+                </p>
+                <div class="project-tags">
+                  <span class="project-tag">LCDPR</span>
+                  <span class="project-tag">ITR</span>
+                  <span class="project-tag">Análise de Rentabilidade</span>
+                </div>
+                <div class="project-results">
+                  <strong>Resultados:</strong> Conformidade fiscal 100%,
+                  otimização de 20% nos custos
+                </div>
+                <button
+                  class="project-btn"
+                  onclick="openProjectModal('projeto5')"
+                >
+                  Ver Detalhes
+                </button>
+              </div>
+            </div>
+
+            <!-- Projeto 6 -->
+            <div class="project-card" data-category="rural">
+              <div class="project-image">
+                <i class="fa-solid fa-users"></i>
+              </div>
+              <div class="project-content">
+                <span class="project-category">Pessoa Física/Rural</span>
+                <h3 class="project-title">Planejamento Sucessório</h3>
+                <p class="project-client">Família Empresária</p>
+                <p class="project-description">
+                  Estruturação de planejamento sucessório e tributário com
+                  holding familiar e proteção patrimonial.
+                </p>
+                <div class="project-tags">
+                  <span class="project-tag">Holding Familiar</span>
+                  <span class="project-tag">Planejamento Tributário</span>
+                  <span class="project-tag">Sucessão</span>
+                </div>
+                <div class="project-results">
+                  <strong>Resultados:</strong> Proteção patrimonial e redução de
+                  40% em impostos futuros
+                </div>
+                <button
+                  class="project-btn"
+                  onclick="openProjectModal('projeto6')"
+                >
+                  Ver Detalhes
+                </button>
+              </div>
+            </div>
+
+            <!-- Projeto 7 -->
+            <div class="project-card" data-category="automacao">
+              <div class="project-image">
+                <i class="fa-solid fa-brain"></i>
+              </div>
+              <div class="project-content">
+                <span class="project-category">Automação/BI</span>
+                <h3 class="project-title">
+                  Inteligência Artificial para Análise
+                </h3>
+                <p class="project-client">Grupo Empresarial</p>
+                <p class="project-description">
+                  IA para análise preditiva de fluxo de caixa e previsão de
+                  cenários financeiros.
+                </p>
+                <div class="project-tags">
+                  <span class="project-tag">Python</span>
+                  <span class="project-tag">Machine Learning</span>
+                  <span class="project-tag">Power BI</span>
+                </div>
+                <div class="project-results">
+                  <strong>Resultados:</strong> Previsões 85% mais precisas
+                </div>
+                <button
+                  class="project-btn"
+                  onclick="openProjectModal('projeto7')"
+                >
+                  Ver Detalhes
+                </button>
+              </div>
+            </div>
+
+            <!-- Projeto 8 -->
+            <div class="project-card" data-category="automacao">
+              <div class="project-image">
+                <i class="fa-solid fa-network-wired"></i>
+              </div>
+              <div class="project-content">
+                <span class="project-category">Automação/BI</span>
+                <h3 class="project-title">Integração de Sistemas</h3>
+                <p class="project-client">Rede de Franquias</p>
+                <p class="project-description">
+                  Integração completa de sistemas contábeis e gerenciais com
+                  unificação de dados em tempo real.
+                </p>
+                <div class="project-tags">
+                  <span class="project-tag">APIs</span>
+                  <span class="project-tag">SQL</span>
+                  <span class="project-tag">Automação</span>
+                </div>
+                <div class="project-results">
+                  <strong>Resultados:</strong> Unificação de dados, relatórios
+                  em tempo real
+                </div>
+                <button
+                  class="project-btn"
+                  onclick="openProjectModal('projeto8')"
+                >
+                  Ver Detalhes
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonials Section -->
+      <section class="testimonials-section">
+        <h2 class="section-title">O que nossos clientes dizem</h2>
+        <div class="testimonials-container">
+          <div class="testimonial active">
+            <p class="testimonial-text">
+              "O trabalho do Jonathan transformou completamente nossa gestão
+              financeira. Os relatórios em Power BI nos deram uma visão clara do
+              negócio."
+            </p>
+            <p class="testimonial-author">
+              - Maria Silva, CEO da Construtora Silva
+            </p>
+          </div>
+          <div class="testimonial">
+            <p class="testimonial-text">
+              "Profissional extremamente competente e atualizado. A automação
+              que ele implementou economizou horas de trabalho manual."
+            </p>
+            <p class="testimonial-author">- João Santos, Diretor Financeiro</p>
+          </div>
+          <div class="testimonial">
+            <p class="testimonial-text">
+              "Excelente assessoria tributária. Conseguimos uma economia
+              significativa com o planejamento que ele desenvolveu."
+            </p>
+            <p class="testimonial-author">- Ana Costa, Empresária</p>
+          </div>
+          <div class="testimonial-nav">
+            <span class="testimonial-dot active" data-slide="0"></span>
+            <span class="testimonial-dot" data-slide="1"></span>
+            <span class="testimonial-dot" data-slide="2"></span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Plans Section -->
+      <section class="section bg-gray" id="plans">
+        <div class="section-content">
+          <h2 class="section-title">Planos Contábeis</h2>
+          <div class="plans">
+            <div class="plan">
+              <div class="plan-content">
+                <h2>Plano Essencial</h2>
+                <p class="price">R$ 250<span class="price-note">/mês</span></p>
+                <b>Ideal para MEI</b>
+                <ul>
+                  <li>
+                    <i class="fa-solid fa-calculator"></i>Escrituração contábil
+                    e fiscal
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-file-invoice-dollar"></i>Guias e
+                    obrigações mensais
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-money-check-dollar"></i>Pró-Labore
+                  </li>
+                  <li><i class="fa-solid fa-headset"></i>Atendimento básico</li>
+                </ul>
+              </div>
+              <div class="plan-cta">
+                <button class="plan-btn" onclick="openModal('essencial')">
+                  Escolher Plano
+                </button>
+              </div>
+            </div>
+
+            <div class="plan highlight">
+              <div class="plan-content">
+                <div class="highlight-badge">Mais Popular</div>
+                <h2>Plano Consultivo</h2>
+                <p class="price">R$ 450<span class="price-note">/mês</span></p>
+                <b>Ideal para ME (Microempresa)</b>
+                <ul>
+                  <li>
+                    <i class="fa-solid fa-circle-check"></i>Tudo do Essencial
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-chart-pie"></i>Relatórios mensais
+                    simplificados
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-lightbulb"></i>Consultoria tributária
+                    anual
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-user-tie"></i>Analista contábil
+                    dedicado
+                  </li>
+                </ul>
+              </div>
+              <div class="plan-cta">
+                <button class="plan-btn" onclick="openModal('consultivo')">
+                  Escolher Plano
+                </button>
+              </div>
+            </div>
+
+            <div class="plan">
+              <div class="plan-content">
+                <h2>Plano Premium</h2>
+                <p class="price">R$ 950<span class="price-note">/mês</span></p>
+                <b>Ideal para EPP (Empresa de Pequeno Porte)</b>
+                <ul>
+                  <li>
+                    <i class="fa-solid fa-circle-check"></i>Tudo do Consultivo
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-magnifying-glass-chart"></i>Análise de
+                    indicadores gerenciais
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-hand-holding-dollar"></i>BPO
+                    Financeiro parcial
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-cogs"></i>Controladoria simplificada
+                  </li>
+                </ul>
+              </div>
+              <div class="plan-cta">
+                <button class="plan-btn" onclick="openModal('premium')">
+                  Escolher Plano
+                </button>
+              </div>
+            </div>
+
+            <div class="plan">
+              <div class="plan-content">
+                <h2>Plano Personalizado</h2>
+                <p class="price">Sob Consulta</p>
+                <b>Ideal para Lucro Presumido e Real</b>
+                <ul>
+                  <li><i class="fa-solid fa-star"></i>Tudo do Premium</li>
+                  <li>
+                    <i class="fa-solid fa-briefcase"></i>BPO Financeiro completo
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-cogs"></i>Controladoria completa
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-bullseye"></i>Análise de rentabilidade
+                    e KPIs
+                  </li>
+                  <li>
+                    <i class="fa-solid fa-tasks"></i>Auditoria contábil e fiscal
+                  </li>
+                </ul>
+              </div>
+              <div class="plan-cta">
+                <button class="plan-btn" onclick="openModal('personalizado')">
+                  Escolher Plano
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact Section -->
+      <section class="section" id="contact">
+        <div class="form-section">
+          <h3
+            style="
+              text-align: center;
+              color: var(--azul);
+              font-size: 2rem;
+              margin-bottom: 1rem;
+            "
+          >
+            Fale com um Especialista
+          </h3>
+          <p
+            style="
+              text-align: center;
+              max-width: 500px;
+              margin: 0 auto 2rem auto;
+            "
+          >
+            Pronto para otimizar a gestão do seu negócio? Preencha o formulário
+            e receba uma proposta personalizada.
+          </p>
+
+          <form id="contactForm">
+            <div class="form-group">
+              <input
+                type="text"
+                name="name"
+                id="name"
+                placeholder="Seu Nome"
+                class="form-input"
+                required
+              />
+              <div class="form-error" id="nameError">
+                Por favor, insira seu nome
+              </div>
+              <div class="form-success" id="nameSuccess">✓ Nome válido</div>
+            </div>
+
+            <div class="form-group">
+              <input
+                type="email"
+                name="email"
+                id="email"
+                placeholder="Seu Melhor E-mail"
+                class="form-input"
+                required
+              />
+              <div class="form-error" id="emailError">
+                Por favor, insira um e-mail válido
+              </div>
+              <div class="form-success" id="emailSuccess">✓ E-mail válido</div>
+            </div>
+
+            <div class="form-group">
+              <input
+                type="tel"
+                name="phone"
+                id="phone"
+                placeholder="Seu Telefone (opcional)"
+                class="form-input"
+              />
+              <div class="form-error" id="phoneError">
+                Formato de telefone inválido
+              </div>
+              <div class="form-success" id="phoneSuccess">
+                ✓ Telefone válido
+              </div>
+            </div>
+
+            <div class="form-group">
+              <textarea
+                name="message"
+                id="message"
+                placeholder="Fale um pouco sobre sua empresa e suas necessidades..."
+                class="form-input"
+                style="min-height: 120px; resize: vertical"
+                required
+              ></textarea>
+              <div class="form-error" id="messageError">
+                Por favor, descreva suas necessidades
+              </div>
+              <div class="form-success" id="messageSuccess">
+                ✓ Mensagem válida
+              </div>
+            </div>
+
+            <button type="submit" class="btn-submit" id="submitBtn">
+              <span class="btn-text">Receber Proposta</span>
+              <i class="fa-solid fa-spinner loading"></i>
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <div class="social-links">
+        <a
+          href="https://wa.me/5545988043271"
+          target="_blank"
+          aria-label="WhatsApp"
+        >
+          <i class="fa-brands fa-whatsapp"></i>
+        </a>
+        <a
+          href="https://www.linkedin.com/in/jonathanductievicz/"
+          target="_blank"
+          aria-label="LinkedIn"
+        >
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+        <a
+          href="https://www.instagram.com/jonathanductievicz/"
+          target="_blank"
+          aria-label="Instagram"
+        >
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+        <a
+          href="https://github.com/jonathanductievicz/jonathanductievicz"
+          target="_blank"
+          aria-label="GitHub"
+        >
+          <i class="fa-brands fa-github"></i>
+
+      </div>
+      <div class="footer-contact">
+        <p>
+          <i class="fa-solid fa-envelope"></i>
+          <a href="mailto:jonathanduc@gmail.com">jonathanduc@gmail.com</a>
+        </p>
+        <p><i class="fa-solid fa-phone"></i> (45) 9.8804-3271</p>
+      </div>
+      <div class="footer-copyright">
+        &copy; 2025 Jonathan Ductievicz Contabilidade e Consultoria - Todos os
+        direitos reservados.
+      </div>
+    </footer>
+
+    <!-- Plan Modal -->
+    <div id="planModal" class="modal">
+      <div class="modal-content">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <h2 id="modalTitle">Detalhes do Plano</h2>
+        <p id="modalContent">Conteúdo do modal...</p>
+        <button
+          class="btn-submit"
+          onclick="closeModal(); document.getElementById('contact').scrollIntoView();"
+        >
+          Solicitar Proposta
+        </button>
+      </div>
+    </div>
+
+    <!-- Project Modal -->
+    <div id="projectModal" class="project-modal">
+      <div class="project-modal-content">
+        <div class="project-modal-header">
+          <span class="project-modal-close" onclick="closeProjectModal()"
+            >&times;</span
+          >
+          <h2 id="projectModalTitle">Título do Projeto</h2>
+          <p id="projectModalClient">Cliente</p>
+        </div>
+        <div class="project-modal-body">
+          <div id="projectModalDescription"></div>
+          <div class="project-timeline" id="projectModalTimeline"></div>
+          <div id="projectModalResults"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Project data
+      const projectsData = {
+        projeto1: {
+          title: 'Sistema de Controle de Custos',
+          client: 'Construtora Regional',
+          category: 'Construção Civil',
+          description:
+            'Desenvolvimento de sistema completo para controle e análise de custos de obras, integrando dados de compras, mão de obra e equipamentos em dashboards interativos.',
+          timeline: [
+            {
+              phase: 'Análise e Planejamento',
+              description:
+                'Levantamento de requisitos e mapeamento de processos existentes',
+            },
+            {
+              phase: 'Desenvolvimento',
+              description:
+                'Criação de dashboards em Power BI e scripts de automação em Python',
+            },
+            {
+              phase: 'Integração',
+              description:
+                'Conexão com sistemas existentes e importação de dados históricos',
+            },
+            {
+              phase: 'Treinamento',
+              description: 'Capacitação da equipe e documentação do sistema',
+            },
+            {
+              phase: 'Implementação',
+              description: 'Go-live e acompanhamento dos primeiros meses',
+            },
+          ],
+          results:
+            '30% de redução no tempo de análise de custos, 15% de economia nos custos totais da obra, e visibilidade em tempo real de todos os indicadores financeiros do projeto.',
+        },
+        projeto2: {
+          title: 'Dashboard Gerencial',
+          client: 'Incorporadora Imobiliária',
+          category: 'Construção Civil',
+          description:
+            'Criação de dashboard executivo para acompanhamento de vendas, estoque de unidades, indicadores financeiros e performance comercial da incorporadora.',
+          timeline: [
+            {
+              phase: 'Diagnóstico',
+              description:
+                'Análise dos KPIs existentes e necessidades gerenciais',
+            },
+            {
+              phase: 'Modelagem de Dados',
+              description:
+                'Estruturação do banco de dados e definição de métricas',
+            },
+            {
+              phase: 'Desenvolvimento BI',
+              description:
+                'Criação de relatórios interativos e dashboards executivos',
+            },
+            {
+              phase: 'Automação',
+              description: 'Implementação de atualizações automáticas de dados',
+            },
+            {
+              phase: 'Entrega',
+              description: 'Treinamento executivo e suporte contínuo',
+            },
+          ],
+          results:
+            'Decisões estratégicas 50% mais rápidas, visibilidade completa do pipeline de vendas, e redução de 70% no tempo de preparação de relatórios gerenciais.',
+        },
+        projeto3: {
+          title: 'Otimização Tributária',
+          client: 'Agência de Marketing Digital',
+          category: 'Profissionais Liberais',
+          description:
+            'Reestruturação completa do planejamento tributário com foco na otimização através do Fator R e análise de enquadramento fiscal mais vantajoso.',
+          timeline: [
+            {
+              phase: 'Auditoria Fiscal',
+              description: 'Análise completa da situação tributária atual',
+            },
+            {
+              phase: 'Simulações',
+              description:
+                'Cálculos comparativos entre diferentes regimes tributários',
+            },
+            {
+              phase: 'Reestruturação',
+              description: 'Implementação do novo enquadramento fiscal',
+            },
+            {
+              phase: 'Acompanhamento',
+              description: 'Monitoramento mensal dos resultados obtidos',
+            },
+          ],
+          results:
+            '25% de redução na carga tributária anual, conformidade fiscal 100%, e economia de R$ 180.000 no primeiro ano.',
+        },
+        projeto4: {
+          title: 'Automação Contábil',
+          client: 'Consultoria Empresarial',
+          category: 'Profissionais Liberais',
+          description:
+            'Implementação de automação completa dos processos contábeis e fiscais através de RPA e integração de sistemas.',
+          timeline: [
+            {
+              phase: 'Mapeamento',
+              description: 'Identificação de processos manuais e gargalos',
+            },
+            {
+              phase: 'Desenvolvimento RPA',
+              description:
+                'Criação de robôs para automação de tarefas repetitivas',
+            },
+            {
+              phase: 'Integração',
+              description: 'Conexão entre diferentes sistemas contábeis',
+            },
+            {
+              phase: 'Testes',
+              description: 'Validação e ajustes dos processos automatizados',
+            },
+            {
+              phase: 'Produção',
+              description: 'Implementação e monitoramento contínuo',
+            },
+          ],
+          results:
+            '60% de redução no tempo de processamento contábil, eliminação de 90% dos erros manuais, e liberação da equipe para atividades estratégicas.',
+        },
+        projeto5: {
+          title: 'Gestão Rural Completa',
+          client: 'Produtor Rural',
+          category: 'Pessoa Física/Rural',
+          description:
+            'Implementação de sistema completo de gestão rural incluindo LCDPR, ITR, controle de custos e análise de rentabilidade por cultura.',
+          timeline: [
+            {
+              phase: 'Diagnóstico Rural',
+              description:
+                'Análise da atividade rural e obrigações específicas',
+            },
+            {
+              phase: 'Estruturação',
+              description:
+                'Organização da documentação e processos contábeis rurais',
+            },
+            {
+              phase: 'Sistema LCDPR',
+              description:
+                'Implementação do Livro Caixa Digital do Produtor Rural',
+            },
+            {
+              phase: 'Análise ITR',
+              description: 'Otimização do Imposto Territorial Rural',
+            },
+            {
+              phase: 'Controle Gerencial',
+              description:
+                'Criação de relatórios de rentabilidade por atividade',
+            },
+          ],
+          results:
+            'Conformidade fiscal 100% com todas as obrigações rurais, otimização de 20% nos custos operacionais, e visibilidade completa da rentabilidade por cultura.',
+        },
+        projeto6: {
+          title: 'Planejamento Sucessório',
+          client: 'Família Empresária',
+          category: 'Pessoa Física/Rural',
+          description:
+            'Estruturação de planejamento sucessório familiar com criação de holding, proteção patrimonial e otimização tributária para transferência de bens.',
+          timeline: [
+            {
+              phase: 'Diagnóstico Patrimonial',
+              description: 'Levantamento completo do patrimônio familiar',
+            },
+            {
+              phase: 'Estruturação Jurídica',
+              description:
+                'Criação da holding familiar e reorganização societária',
+            },
+            {
+              phase: 'Planejamento Tributário',
+              description: 'Otimização fiscal para transferência de bens',
+            },
+            {
+              phase: 'Implementação',
+              description: 'Execução do plano sucessório',
+            },
+            {
+              phase: 'Acompanhamento',
+              description: 'Monitoramento e ajustes periódicos',
+            },
+          ],
+          results:
+            'Proteção patrimonial completa, redução de 40% nos impostos sobre transferência de bens, e estrutura sucessória organizada para as próximas gerações.',
+        },
+        projeto7: {
+          title: 'Inteligência Artificial para Análise',
+          client: 'Grupo Empresarial',
+          category: 'Automação/BI',
+          description:
+            'Desenvolvimento de sistema de IA para análise preditiva de fluxo de caixa e previsão de cenários financeiros usando machine learning.',
+          timeline: [
+            {
+              phase: 'Coleta de Dados',
+              description: 'Estruturação da base de dados históricos',
+            },
+            {
+              phase: 'Modelagem IA',
+              description: 'Desenvolvimento de algoritmos de machine learning',
+            },
+            {
+              phase: 'Treinamento',
+              description: 'Treinamento dos modelos com dados históricos',
+            },
+            {
+              phase: 'Validação',
+              description: 'Testes de precisão e ajustes dos algoritmos',
+            },
+            {
+              phase: 'Produção',
+              description: 'Implementação do sistema preditivo',
+            },
+          ],
+          results:
+            'Previsões de fluxo de caixa 85% mais precisas, antecipação de problemas financeiros com 3 meses de antecedência, e otimização de 30% na gestão de capital de giro.',
+        },
+        projeto8: {
+          title: 'Integração de Sistemas',
+          client: 'Rede de Franquias',
+          category: 'Automação/BI',
+          description:
+            'Integração completa de sistemas contábeis e gerenciais de múltiplas unidades com unificação de dados e relatórios consolidados em tempo real.',
+          timeline: [
+            {
+              phase: 'Mapeamento',
+              description: 'Análise dos sistemas existentes em cada unidade',
+            },
+            {
+              phase: 'Arquitetura',
+              description: 'Definição da arquitetura de integração',
+            },
+            {
+              phase: 'Desenvolvimento APIs',
+              description: 'Criação de interfaces de integração',
+            },
+            { phase: 'Migração', description: 'Unificação das bases de dados' },
+            {
+              phase: 'Consolidação',
+              description: 'Implementação de relatórios consolidados',
+            },
+          ],
+          results:
+            'Unificação completa de dados de 15 unidades, relatórios consolidados em tempo real, e redução de 80% no tempo de fechamento contábil da rede.',
+        },
+      };
+
+      // Loading Screen
+      window.addEventListener('load', function () {
+        setTimeout(() => {
+          document.getElementById('loadingOverlay').style.opacity = '0';
+          setTimeout(() => {
+            document.getElementById('loadingOverlay').style.display = 'none';
+          }, 500);
+        }, 1000);
+      });
+
+      // Scroll Progress Bar
+      window.addEventListener('scroll', function () {
+        const scrollProgress = document.getElementById('scrollProgress');
+        const scrollTop = document.documentElement.scrollTop;
+        const scrollHeight =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
+        const scrollPercent = (scrollTop / scrollHeight) * 100;
+        scrollProgress.style.width = scrollPercent + '%';
+      });
+
+      // Navbar Scroll Effect
+      window.addEventListener('scroll', function () {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 100) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+      });
+
+      // Mobile Menu Toggle
+      const menuToggle = document.getElementById('menu-toggle');
+      const navbar = document.getElementById('navbar');
+      const navLinks = document.getElementById('nav-links');
+
+      menuToggle.addEventListener('click', () => {
+        navbar.classList.toggle('active');
+      });
+
+      navLinks.addEventListener('click', () => {
+        if (navbar.classList.contains('active')) {
+          navbar.classList.remove('active');
+        }
+      });
+
+      // Scroll Spy for Navigation
+      const sections = document.querySelectorAll('section[id]');
+      const navLinksArray = document.querySelectorAll('.nav-link');
+
+      window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.clientHeight;
+          if (scrollY >= sectionTop - 200) {
+            current = section.getAttribute('id');
+          }
+        });
+
+        navLinksArray.forEach((link) => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + current) {
+            link.classList.add('active');
+          }
+        });
+      });
+
+      // Intersection Observer for Animations
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px',
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.section').forEach((section) => {
+        observer.observe(section);
+      });
+
+      // Animated Counters
+      function animateCounter(element) {
+        const target = parseInt(element.getAttribute('data-target'));
+        const increment = target / 100;
+        let current = 0;
+
+        const timer = setInterval(() => {
+          current += increment;
+          if (current >= target) {
+            current = target;
+            clearInterval(timer);
+          }
+          element.textContent = Math.floor(current);
+        }, 20);
+      }
+
+      const statsObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const counters = entry.target.querySelectorAll('.stat-number');
+              counters.forEach((counter) => {
+                if (!counter.classList.contains('animated')) {
+                  counter.classList.add('animated');
+                  animateCounter(counter);
+                }
+              });
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      const statsSection = document.querySelector('.stats-section');
+      if (statsSection) {
+        statsObserver.observe(statsSection);
+      }
+
+      // Projects Filter System
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const projectCards = document.querySelectorAll('.project-card');
+
+      filterButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const filter = button.getAttribute('data-filter');
+
+          // Update active button
+          filterButtons.forEach((btn) => btn.classList.remove('active'));
+          button.classList.add('active');
+
+          // Filter projects
+          projectCards.forEach((card) => {
+            const category = card.getAttribute('data-category');
+
+            if (filter === 'all' || category === filter) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+        });
+      });
+
+      // Project Modal Functions
+      function openProjectModal(projectId) {
+        const modal = document.getElementById('projectModal');
+        const project = projectsData[projectId];
+
+        if (!project) return;
+
+        document.getElementById('projectModalTitle').textContent =
+          project.title;
+        document.getElementById('projectModalClient').textContent =
+          project.client;
+        document.getElementById(
+          'projectModalDescription'
+        ).innerHTML = `<p>${project.description}</p>`;
+
+        // Timeline
+        const timelineHtml = project.timeline
+          .map(
+            (item) => `
+          <div class="timeline-item">
+            <div class="timeline-icon">
+              <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="timeline-content">
+              <h4>${item.phase}</h4>
+              <p>${item.description}</p>
+            </div>
+          </div>
+        `
+          )
+          .join('');
+
+        document.getElementById('projectModalTimeline').innerHTML = `
+          <h3 style="color: var(--azul); margin-bottom: 1rem;">Timeline do Projeto</h3>
+          ${timelineHtml}
+        `;
+
+        document.getElementById('projectModalResults').innerHTML = `
+          <div class="project-results">
+            <h3 style="color: var(--verde); margin-bottom: 1rem;">Resultados Obtidos</h3>
+            <p>${project.results}</p>
+          </div>
+        `;
+
+        modal.style.display = 'block';
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) {
+            closeProjectModal();
+          }
+        });
+      }
+
+      function closeProjectModal() {
+        document.getElementById('projectModal').style.display = 'none';
+      }
+
+      // Testimonials Carousel
+      let currentTestimonial = 0;
+      const testimonials = document.querySelectorAll('.testimonial');
+      const testimonialDots = document.querySelectorAll('.testimonial-dot');
+
+      function showTestimonial(index) {
+        testimonials.forEach((testimonial, i) => {
+          testimonial.classList.toggle('active', i === index);
+        });
+        testimonialDots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+        });
+      }
+
+      testimonialDots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          currentTestimonial = index;
+          showTestimonial(currentTestimonial);
+        });
+      });
+
+      // Auto-rotate testimonials
+      setInterval(() => {
+        currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+        showTestimonial(currentTestimonial);
+      }, 5000);
+
+      // Form Validation
+      const form = document.getElementById('contactForm');
+      const inputs = form.querySelectorAll('.form-input');
+
+      function validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+      }
+
+      function validatePhone(phone) {
+        const re = /^[\(\)\s\-\+\d]{10,}$/;
+        return phone === '' || re.test(phone);
+      }
+
+      function showError(inputId, message) {
+        const input = document.getElementById(inputId);
+        const error = document.getElementById(inputId + 'Error');
+        const success = document.getElementById(inputId + 'Success');
+
+        input.classList.add('error');
+        input.classList.remove('success');
+        error.style.display = 'block';
+        error.textContent = message;
+        success.style.display = 'none';
+      }
+
+      function showSuccess(inputId) {
+        const input = document.getElementById(inputId);
+        const error = document.getElementById(inputId + 'Error');
+        const success = document.getElementById(inputId + 'Success');
+
+        input.classList.remove('error');
+        input.classList.add('success');
+        error.style.display = 'none';
+        success.style.display = 'block';
+      }
+
+      function hideValidation(inputId) {
+        const input = document.getElementById(inputId);
+        const error = document.getElementById(inputId + 'Error');
+        const success = document.getElementById(inputId + 'Success');
+
+        input.classList.remove('error', 'success');
+        error.style.display = 'none';
+        success.style.display = 'none';
+      }
+
+      // Real-time validation
+      inputs.forEach((input) => {
+        input.addEventListener('blur', () => {
+          const value = input.value.trim();
+          const id = input.id;
+
+          switch (id) {
+            case 'name':
+              if (value === '') {
+                showError(id, 'Por favor, insira seu nome');
+              } else if (value.length < 2) {
+                showError(id, 'Nome deve ter pelo menos 2 caracteres');
+              } else {
+                showSuccess(id);
+              }
+              break;
+
+            case 'email':
+              if (value === '') {
+                showError(id, 'Por favor, insira seu e-mail');
+              } else if (!validateEmail(value)) {
+                showError(id, 'Por favor, insira um e-mail válido');
+              } else {
+                showSuccess(id);
+              }
+              break;
+
+            case 'phone':
+              if (!validatePhone(value)) {
+                showError(id, 'Formato de telefone inválido');
+              } else if (value !== '') {
+                showSuccess(id);
+              } else {
+                hideValidation(id);
+              }
+              break;
+
+            case 'message':
+              if (value === '') {
+                showError(id, 'Por favor, descreva suas necessidades');
+              } else if (value.length < 10) {
+                showError(id, 'Mensagem deve ter pelo menos 10 caracteres');
+              } else {
+                showSuccess(id);
+              }
+              break;
+          }
+        });
+      });
+
+      // Form submission
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const loading = submitBtn.querySelector('.loading');
+
+        // Validate all fields
+        let isValid = true;
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const message = document.getElementById('message').value.trim();
+
+        if (name === '' || name.length < 2) {
+          showError(
+            'name',
+            'Nome é obrigatório e deve ter pelo menos 2 caracteres'
+          );
+          isValid = false;
+        }
+
+        if (email === '' || !validateEmail(email)) {
+          showError('email', 'E-mail válido é obrigatório');
+          isValid = false;
+        }
+
+        if (!validatePhone(phone)) {
+          showError('phone', 'Formato de telefone inválido');
+          isValid = false;
+        }
+
+        if (message === '' || message.length < 10) {
+          showError(
+            'message',
+            'Mensagem é obrigatória e deve ter pelo menos 10 caracteres'
+          );
+          isValid = false;
+        }
+
+        if (!isValid) return;
+
+        // Show loading state
+        submitBtn.classList.add('loading');
+        submitBtn.disabled = true;
+        btnText.textContent = 'Enviando...';
+
+        // Simulate form submission
+        setTimeout(() => {
+          alert(
+            'Obrigado! Sua mensagem foi enviada com sucesso. Entraremos em contato em breve.'
+          );
+          form.reset();
+          inputs.forEach((input) => hideValidation(input.id));
+
+          // Reset button
+          submitBtn.classList.remove('loading');
+          submitBtn.disabled = false;
+          btnText.textContent = 'Receber Proposta';
+        }, 2000);
+      });
+
+      // Plan Modal Functions
+      function openModal(planType) {
+        const modal = document.getElementById('planModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+
+        const planDetails = {
+          essencial: {
+            title: 'Plano Essencial - R$ 250/mês',
+            content:
+              'Ideal para MEI que precisa de uma contabilidade básica mas eficiente. Inclui toda a escrituração necessária, emissão de guias e suporte para pró-labore. Perfeito para quem está começando e precisa de conformidade fiscal.',
+          },
+          consultivo: {
+            title: 'Plano Consultivo - R$ 450/mês',
+            content:
+              'Nosso plano mais popular! Além de todos os serviços do Essencial, você terá relatórios mensais, consultoria tributária anual e um analista dedicado. Ideal para microempresas que querem crescer com inteligência.',
+          },
+          premium: {
+            title: 'Plano Premium - R$ 950/mês',
+            content:
+              'Para empresas que precisam de uma visão estratégica completa. Inclui análise de indicadores gerenciais, BPO financeiro parcial e controladoria simplificada. Perfeito para EPP e empresas do Lucro Presumido.',
+          },
+          personalizado: {
+            title: 'Plano Personalizado - Sob Consulta',
+            content:
+              'Solução completa para empresas do Lucro Presumido e Real. Inclui BPO financeiro completo, controladoria avançada, análise de rentabilidade e auditoria. Vamos criar uma proposta específica para suas necessidades.',
+          },
+        };
+
+        modalTitle.textContent = planDetails[planType].title;
+        modalContent.textContent = planDetails[planType].content;
+        modal.style.display = 'block';
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) {
+            closeModal();
+          }
+        });
+      }
+
+      function closeModal() {
+        document.getElementById('planModal').style.display = 'none';
+      }
+
+      // Keyboard navigation for modals
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          closeModal();
+          closeProjectModal();
+        }
+      });
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({
+              behavior: 'smooth',
+              block: 'start',
+            });
+          }
+        });
+      });
+
+      // Add some interactive effects to tech items
+      document.querySelectorAll('.tech-item').forEach((item) => {
+        item.addEventListener('click', function () {
+          this.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            this.style.transform = '';
+          }, 150);
+        });
+      });
+
+      // Lazy loading for images
+      if ('IntersectionObserver' in window) {
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const img = entry.target;
+              img.src = img.dataset.src;
+              img.classList.remove('lazy');
+              imageObserver.unobserve(img);
+            }
+          });
+        });
+
+        document.querySelectorAll('img[data-src]').forEach((img) => {
+          imageObserver.observe(img);
+        });
+      }
+    </script>
+  </body>
+</html>
